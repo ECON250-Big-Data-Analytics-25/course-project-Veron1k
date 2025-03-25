@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: vanepska
+    database: econ250-2025
+    schema: vanepska
+    tables:
+      - name: week3_arxiv
+      - name: " sheet_external_practice"
+
+  - name: test_dataset
+    database: econ250-2025
+    schema: test_dataset
+    tables:
+      - name: week3_arxiv
+
+
