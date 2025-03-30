@@ -1,0 +1,25 @@
+version: 2
+
+sources:
+  - name: test_dataset
+    database: econ250-2025
+    schema: test_dataset
+    tables:
+      - name: assignment3_input_uk
+        columns:
+          - name: title
+            data_tests:
+              - not_null
+          - name: datehour
+            data_tests:
+              - not_null
+      - name: assignment3_input_uk_m
+        columns:
+          - name: title
+            data_tests:
+              - not_null
+          - name: datehour
+            data_tests:
+              - not_null
+
+
