@@ -1,0 +1,187 @@
+version: 2
+
+models:
+  - name: stg_fp_customers
+    description: "This dataset has information about the customer and its location"
+    config:
+      persist_docs:
+        relation: true
+        columns: true
+    columns:
+      - name: customer_city
+        description: "customer city name"
+      - name: customer_state
+        description: "customer state"
+      - name: customer_zip_code_prefix
+        description: "first five digits of customer zip code casted to string"
+        tests:
+          - not_null
+
+  - name: stg_fp_orders
+    description: "Staging model for orders table with cleaned and derived columns"
+    config:
+      persist_docs:
+        relation: true
+        columns: true
+    columns:
+      - name: order_status
+        description: "reference to the order status (delivered, shipped, etc)"
+
+      - name: days_taken
+        description: "number of days taken for the order to be delivered"
+        tests:
+          - greater_than:
+              value: 0
+      - name: is_shipped
+        description: "boolean flag indicating if the order has been shipped or delivered"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['TRUE', 'FALSE']
+
+  - name: stg_fp_order_payments
+    description: "This dataset includes data about the orders payment options"
+    config:
+      persist_docs:
+        relation: true
+        columns: true
+    columns:
+      - name: payment_type
+        description: "method of payment chosen by the customer"
+
+
+  - name: stg_fp_products
+    description: "This dataset includes data about the products sold by Olist"
+    config:
+      persist_docs:
+        relation: true
+        columns: true
+    columns:
+      - name: product_category_name
+        description: "root category of product, in Portuguese"
+        tests:
+          - not_null
+
+  - name: stg_fp_sellers
+    description: "This dataset includes data about the sellers that fulfilled orders made at Olist"
+    config:
+      persist_docs:
+        relation: true
+        columns: true
+    columns:
+      - name: seller_zip_code_prefix
+        description: "first 5 digits of seller zip code"
+        tests:
+          - not_null
+      - name: seller_city
+        description: "seller city name"
+      - name: seller_state
+        description: "seller state name"
+
+  - name: int_fp_sales_full
+    description: "Full table with joined info from customers, orders, items, payments, products, sellers, and category translation."
+    config:
+      persist_docs:
+        relation: true
+        columns: true
+    columns:
+      - name: order_id
+        description: "Unique identifier for the order."
+      - name: customer_id
+        description: "Unique identifier for the customer placing the order."
+      - name: customer_unique_id
+        description: "Unique identifier for the customer across different systems."
+      - name: order_status
+        description: "The status of the order (e.g., pending, completed, shipped)."
+      - name: order_purchase_timestamp
+        description: "Timestamp when the order was placed by the customer."
+      - name: order_approved_at
+        description: "Timestamp when the order was approved by the system or seller."
+      - name: order_delivered_carrier_date
+        description: "Timestamp when the order was delivered to the carrier for shipment."
+      - name: order_delivered_customer_date
+        description: "Timestamp when the order was delivered to the customer."
+      - name: order_estimated_delivery_date
+        description: "Estimated delivery date for the order."
+      - name: days_taken
+        description: "The number of days taken for the order to be delivered to the customer."
+      - name: is_shipped
+        description: "A flag indicating whether the order has been shipped (TRUE or FALSE)."
+      - name: products_info
+        description: "Information about the products in the order. This is a repeated field containing multiple products."
+      - name: product_id
+        description: "Unique identifier for the product."
+      - name: order_item_id
+        description: "Unique identifier for the item in the order."
+      - name: product_category_name
+        description: "The category of the product (e.g., electronics, clothing, etc.)."
+      - name: price
+        description: "The price of the product."
+      - name: freight_value
+        description: "The shipping cost for the product."
+      - name: seller_id
+        description: "Unique identifier for the seller who provided the product."
+      - name: seller_zip_code_prefix
+        description: "ZIP code prefix for the seller’s location."
+      - name: seller_city
+        description: "The city where the seller is located."
+      - name: seller_state
+        description: "The state where the seller is located."
+      - name: payment_info
+        description: "Payment details for the order. This is a repeated field containing multiple payment methods."
+      - name: payment_type
+        description: "Type of payment used for the order (e.g., credit card, debit card, etc.)."
+      - name: payment_value
+        description: "Total amount paid for the order."
+      - name: payment_installments
+        description: "Number of installments for the payment (if applicable)."
+
+  - name: fct_fp_payment_analysis
+    description: "Payment type analysis with order count and revenue by region."
+    config:
+      persist_docs:
+        relation: true
+        columns: true
+    columns:
+      - name: payment_type
+        description: "Payment method used in the order."
+      - name: total_orders
+        description: "Total number of orders with this payment type."
+      - name: total_price
+        description: "Total payment amount for this type."
+      - name: region
+        description: "Region where the order was placed."
+
+  - name: fct_fp_product_performance
+    description: "Product performance by category, region, sales, and revenue."
+    config:
+      persist_docs:
+        relation: true
+        columns: true
+    columns:
+      - name: product_id
+        description: "Unique product identifier."
+      - name: product_category_name
+        description: "Product category name."
+      - name: region
+        description: "Region where the product was sold."
+      - name: total_price
+        description: "Total revenue from product sales."
+      - name: items_sold
+        description: "Number of units sold."
+
+  - name: fct_fp_seller_analytics
+    description: "Seller performance by orders, delivery time, and revenue."
+    config:
+      persist_docs:
+        relation: true
+        columns: true
+    columns:
+      - name: seller_id
+        description: "Unique seller identifier."
+      - name: total_orders
+        description: "Total number of orders handled by the seller."
+      - name: avg_days_taken
+        description: "Average delivery time in days."
+      - name: total_price
+        description: "Total revenue earned by the seller."

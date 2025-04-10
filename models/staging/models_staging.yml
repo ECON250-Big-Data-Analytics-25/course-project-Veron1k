@@ -6,6 +6,8 @@ models:
     columns:
       - name: visitId
         description: '{{doc("visitid_description")}}'
+      - name: transaction
+        description: struct field
       - name: transaction.transactionId
         description: Transaction Id duplicated (unique for the model)
         data_tests:
