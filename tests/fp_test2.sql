@@ -1,11 +1,11 @@
 with fp_sales_full as (
   select
-    seller_id,
+    p.seller_id,
     count(distinct order_id) as total_orders,
     round(sum(p.price + p.freight_value), 2) as total_price
   from {{ ref('int_fp_sales_full') }},
     unnest(products_info) as p
-  group by seller_id
+  group by p.seller_id
 ),
 
 fct_fp_seller_analytics as (

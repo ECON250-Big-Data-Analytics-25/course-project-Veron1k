@@ -86,13 +86,13 @@ select
       oi.order_item_id,
       p.product_category_name,
       oi.price,
-      oi.freight_value
+      oi.freight_value,
+      s.seller_id,
+      s.seller_zip_code_prefix,
+      s.seller_city,
+      s.seller_state
     )
   ) as products_info,
-  s.seller_id,
-  s.seller_zip_code_prefix,
-  s.seller_city,
-  s.seller_state,
   pay.payment_info
 from orders o
 left join customers c on o.customer_id = c.customer_id
@@ -112,8 +112,4 @@ group by
   o.order_estimated_delivery_date,
   o.days_taken,
   o.is_shipped,
-  s.seller_id,
-  s.seller_zip_code_prefix,
-  s.seller_city,
-  s.seller_state,
   pay.payment_info

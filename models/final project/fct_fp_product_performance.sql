@@ -1,7 +1,7 @@
 select
   p.product_id,
   p.product_category_name,
-  seller_state as region,
+  p.seller_state as region,
   sum(p.price + p.freight_value) as total_price,
   count(p.order_item_id) as items_sold
 from
