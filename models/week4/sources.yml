@@ -47,6 +47,20 @@ sources:
             description: '{{ doc("visitid_description") }}'
 
 
+      - name: assignment5_input
+        description: "The table contains Wikipedia pageview data for both desktop ( uk ) and mobile
+                      ( uk.m ) versions (so, similar to previous assignment but with different date ranges)"
+        columns:
+          - name: datehour
+            description: "Timestamp representing the hour of the pageview"
+          - name: wiki
+            description: "Platform of Wikipedia (uk or uk.m)"
+          - name: title
+            description: "Title of the Wikipedia page"
+          - name: views
+            description: "Number of views for the page during the hour"
+
+
   - name: google_trends
     database: bigquery-public-data
     schema: google_trends
@@ -58,3 +72,4 @@ sources:
           error_after:
             count: 2
             period: day
+
