@@ -112,3 +112,75 @@ If everything is set up well, you will see similar output:
 
 If you have any troubles with installation, please contact the course instructor (Oleh Omelchenko) in slack for assist.
 
+
+
+## Final Project Overview
+
+In this final project, I applied the skills learned throughout the course to build an end-to-end
+analytics engineering solution using the Brazilian E-commerce dataset. The project involved 
+working with Google BigQuery and dbt to import, transform, and analyze e-commerce data. Below is
+a breakdown of each part of the project and the steps I took to complete it.
+
+
+### Part 1
+
+The first step was to upload the Brazilian E-commerce dataset to Google BigQuery. I downloaded 
+the data from Kaggle and loaded the relevant CSV files into my BigQuery project (econ250-2025). 
+I kept consistent table naming for the source tables (e.g., `fp_customers` for `olist_customers_dataset.csv`).
+
+After uploading the data, I performed exploratory data analysis to understand the relationships 
+between the tables and identify which tables would be used in the subsequent steps.
+
+
+### Part 2
+
+In this part, I created a new file `fp_sources.yml` in my dbt project to define the sources
+for each of the tables I uploaded to BigQuery (e.g., `olist_customers_dataset.csv`, 
+`olist_orders_dataset.csv`, etc.). I also added descriptions for the columns in each source file,
+making it easier to understand the data for future use and modeling.
+
+
+### Part 3
+
+Next, I created staging models for each of the source tables. The purpose of these models was
+to clean and transform the raw data into a more usable form. This involved converting data types, 
+handling null values (especially for categorical columns), and implementing any necessary data
+quality checks. For example, I created derived columns like the time between the order time and 
+delivery date.
+
+
+### Part 4
+
+For the integrated data model, I combined the information from various source tables into 
+a single model called `fp_sales_full`. This model serves as a denormalized view that combines 
+data from `orders`, `products`, `customers`, and other tables. I materialized the resulting model 
+as a table in BigQuery, specifying appropriate partitioning and clustering for better performance.
+
+I documented the decisions I made during this process and included detailed descriptions of the 
+fields in the model (both original columns and new derived ones).
+
+
+### Part 5
+
+I implemented several analytical mart models to generate insights from the data. Some of the 
+models I created include:
+ 
+
+- **Product Performance**: I analyzed top-performing products based on different criteria, 
+- including region and price category.
+
+- **Seller Analytics**: This model evaluates seller performance metrics, such as fulfillment 
+- efficiency and time differences between order stand and order shipment.
+
+- **Payment Analysis**: This model analyzes various payment-related trends in the dataset. It 
+- focuses on key metrics
+
+
+### Part 6
+
+In this part of the project, I added data tests for the models to ensure data quality.
+I implemented at least two custom data tests, such as comparing total sales numbers between 
+`fp_sales_full` and the mart models to check for consistency. Additionally, I provided comprehensive 
+documentation for each table and key columns, which was passed downstream to the BigQuery interface 
+using the `persist_docs` feature in dbt.
+

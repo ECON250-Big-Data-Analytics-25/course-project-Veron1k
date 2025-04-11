@@ -8,6 +8,7 @@ sources:
     tables:
 
       - name: fp_customers
+        description: "This dataset has information about the customer and its location"
         columns:
           - name: customer_id
             description: "key to the orders dataset. Each order has a unique customer_id"
@@ -26,6 +27,7 @@ sources:
             description: "customer state"
 
       - name: fp_order_items
+        description: "This dataset includes data about the items purchased within each order."
         columns:
           - name: order_id
             description: "order unique identifier"
@@ -51,6 +53,7 @@ sources:
             description: "item freight value item (if an order has more than one item the freight value is splitted between items)"
 
       - name: fp_order_payments
+        description: "This dataset includes data about the orders payment options."
         columns:
           - name: order_id
             description: "unique identifier of an order"
@@ -68,6 +71,7 @@ sources:
             description: "transaction value"
 
       - name: fp_orders
+        description: "This is the core dataset. From each order you might find all other information"
         columns:
           - name: order_id
             description: "unique identifier of the order"
@@ -94,6 +98,7 @@ sources:
 
 
       - name: fp_products
+        description: "This dataset includes data about the products sold by Olist."
         columns:
           - name: product_id
             description: "unique product identifier"
@@ -118,6 +123,7 @@ sources:
             description: "product width measured in centimeters"
 
       - name: fp_sellers
+        description: "This dataset includes data about the sellers that fulfilled orders made at Olist"
         columns:
           - name: seller_id
             description: "seller unique identifier"
@@ -132,6 +138,7 @@ sources:
             description: "seller state"
 
       - name: fp_product_category_name
+        description: "Translates the product_category_name to english."
         columns:
           - name: product_category_name
             description: "category name in Portuguese"

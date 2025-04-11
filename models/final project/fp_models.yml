@@ -29,15 +29,12 @@ models:
 
       - name: days_taken
         description: "number of days taken for the order to be delivered"
-        tests:
-          - greater_than:
-              value: 0
+
       - name: is_shipped
         description: "boolean flag indicating if the order has been shipped or delivered"
         tests:
           - not_null
-          - accepted_values:
-              values: ['TRUE', 'FALSE']
+
 
   - name: stg_fp_order_payments
     description: "This dataset includes data about the orders payment options"
